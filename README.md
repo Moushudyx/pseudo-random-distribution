@@ -58,7 +58,7 @@ $$
 假设最后一步为 `Cm`（也就是 `C0 * (m + 1) >= 1`），我们可以简单得出公式
 
 $$
-P = C \times \left(\sum_{n=0}^{m} \left((n+1) \times \prod_{k=1}^{n} (1 - n \times C)\right)\right)
+P = C \times \left(\sum_{n=0}^{m} \left((n+1) \times \prod_{k=1}^{n} (1 - k \times C)\right)\right)
 $$
 
 很明显，通过 `C` 解出 `P` 非常简单，但是很难通过 `P` 得到 `C`，至少我无法通过这个公式看出如何反向推导...
@@ -73,3 +73,23 @@ $$
 2. 通过二分查找法获得 `C`
 3. 记录当前状态 `C0 = C`
 4. 按上述逻辑做状态切换（这个算法只输出一个触发与否；算法内部只需要记住两个值，初始值 `C` 和*当前*状态 `C-now`）
+
+使用 JS 实现一个初步算法：
+
+1. 闭包常量 `C`，闭包变量 `current`
+2. 内部方法 `getCFromP` 基于输入的目标概率 `P` 计算 `C`
+   1. 其中还需一个 `getRealPFromC` 用于二分查找 `C` 近似值时反向算出对应的实际 `P` 值
+   2. 算出 `C` 后需要给 `current` 赋初值
+3. 返回方法 `getRandomDistribution`, 调用后输出 `boolean` 指示命中与否，同时变更 `current` 的值
+
+## 限制性
+
+TODO
+
+### 简单优化
+
+TODO
+
+## 参考资料
+
+- [Dota2 的随机分布实现](https://dota2.fandom.com/wiki/Random_Distribution)
